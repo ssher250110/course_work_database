@@ -35,5 +35,5 @@ class HHApiEmployer(ApiEmployer):
         for company_id in company_ids:
             response_api_hh = requests.get(url=f"{HH_URL_EMPLOYERS}{company_id}").json()
             data_employers.append(response_api_hh)
-        return [{"name": data_employer["name"], "open_vacancies": data_employer["open_vacancies"]} for data_employer in
-                data_employers]
+        return [{"employer_name": data_employer["name"], "open_vacancies": data_employer["open_vacancies"]} for
+                data_employer in data_employers]
