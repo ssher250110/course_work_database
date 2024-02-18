@@ -19,15 +19,6 @@ class ApiEmployer(ABC):
         """
         raise NotImplementedError
 
-    @abstractmethod
-    def get_filter_data_employers(self, data: list[dict]) -> list[dict]:
-        """
-        Абстрактный метод фильтрующий данные.
-        :param data: Список данных о компаниях с HeadHunter
-        :return:
-        """
-        raise NotImplementedError
-
 
 class HHApiEmployer(ApiEmployer):
     """
@@ -44,13 +35,5 @@ class HHApiEmployer(ApiEmployer):
         for company_id in company_ids:
             response_api_hh = requests.get(url=f"{HH_URL_EMPLOYERS}{company_id}").json()
             data_employers.append(response_api_hh)
-        return data_employers
-
-    def get_filter_data_employers(self, data: list[dict]) -> list[dict]:
-        """
-        Метод фильтрующий данные.
-        :param data: Список данных о компаниях с HeadHunter
-        :return: Отфильтрованный список с данными о компаниях.
-        """
         return [{"name": data_employer["name"], "open_vacancies": data_employer["open_vacancies"]} for data_employer in
-                data]
+                data_employers]
