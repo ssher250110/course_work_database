@@ -1,5 +1,6 @@
 from configparser import ConfigParser
 
+
 # Возвращает словарь с данными для подключения к БД
 def config(filename="database.ini", section="postgresql"):
     parser = ConfigParser()
