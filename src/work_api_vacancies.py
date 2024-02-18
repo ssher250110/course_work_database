@@ -43,7 +43,8 @@ class HHApiVacancies(ApiVacancies):
                 data_vacancies.extend(response)
                 page += 1
             data.extend(data_vacancies)
-        return [{"employer_name": data_vacancy["employer"]["name"],
+        return [{"employer_id": data_vacancy["employer"]["id"],
+                 "employer_name": data_vacancy["employer"]["name"],
                  "vacancy_name": data_vacancy["name"],
                  "salary_from": [data_vacancy["salary"]["from"] if data_vacancy.get("salary") else None][0],
                  "salary_to": [data_vacancy["salary"]["to"] if data_vacancy.get("salary") else None][0],
