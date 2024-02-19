@@ -5,7 +5,7 @@ from src.work_api_employers import HHApiEmployer
 from src.work_api_vacancies import HHApiVacancies
 
 
-def data_database() -> None:
+def load_data_database() -> None:
     """
     Функция для работы с API HeadHunter, создания базы данных и таблиц, и заполнения таблиц данными.
     """
