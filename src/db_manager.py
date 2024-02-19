@@ -100,7 +100,7 @@ class DBManager:
 
     def get_all_vacancies(self) -> list[tuple]:
         """
-        Метод получения списка всех вакансий с указанием названия компании, названия вакансии и зарплаты и ссылки
+        Метод получения списка всех вакансий с указанием названия компании, названия вакансии, зарплаты и ссылки
         на вакансию.
         :return:
         """
@@ -110,6 +110,7 @@ class DBManager:
             SELECT employers. employer_name, vacancy_name, salary_from, salary_to, currency, url_address
             FROM vacancies
             JOIN employers USING (employer_id)
+            WHERE salary_from > 0 AND salary_to > 0
             ORDER BY employers. employer_name
             """)
             response = cur.fetchall()
@@ -123,7 +124,9 @@ class DBManager:
         conn = psycopg2.connect(dbname=self.new_database, **self.params)
         with conn.cursor() as cur:
             cur.execute("""
-            SELECT AVG ((salary_from + salary_to) / 2) FROM vacancies
+            SELECT AVG ((salary_from + salary_to) / 2) 
+            FROM vacancies
+            WHERE salary_from > 0 AND salary_to > 0
             """)
             response = cur.fetchall()
         return response
@@ -139,7 +142,8 @@ class DBManager:
                     SELECT employers. employer_name, vacancy_name, salary_from, salary_to, currency
                     FROM vacancies
                     JOIN employers USING (employer_id)
-                    WHERE (salary_from + salary_to) / 2 > (SELECT AVG((salary_from + salary_to) / 2) FROM vacancies)
+                    WHERE salary_from > 0 AND salary_to > 0 AND (salary_from + salary_to) / 2 > 
+                    (SELECT AVG((salary_from + salary_to) / 2) FROM vacancies)
                     ORDER BY (salary_from + salary_to) / 2
                     """)
             response = cur.fetchall()
