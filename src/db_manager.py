@@ -160,7 +160,7 @@ class DBManager:
                         SELECT employers. employer_name, vacancy_name, salary_from, salary_to, currency, url_address
                         FROM vacancies
                         JOIN employers USING (employer_id)
-                        WHERE Vacancy_name LIKE %s
+                        WHERE salary_from > 0 AND salary_to > 0 AND Vacancy_name LIKE %s
                         ORDER BY vacancy_name
                             """, (f"%{user_word}%",))
             response = cur.fetchall()
