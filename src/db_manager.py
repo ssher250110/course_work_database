@@ -1,5 +1,7 @@
 import psycopg2
 
+from user_exceptions import ConnectError
+
 
 class DBManager:
     """
@@ -21,16 +23,18 @@ class DBManager:
         """
         Метод создания базы данных.
         """
-        conn = psycopg2.connect(dbname=self.exists_database, **self.params)
+        try:
+            conn = psycopg2.connect(dbname=self.exists_database, **self.params)
+            conn.autocommit = True
+            cur = conn.cursor()
 
-        conn.autocommit = True
-        cur = conn.cursor()
+            cur.execute(f"DROP DATABASE IF EXISTS {self.new_database}")
+            cur.execute(f"CREATE DATABASE {self.new_database}")
 
-        cur.execute(f"DROP DATABASE IF EXISTS {self.new_database}")
-        cur.execute(f"CREATE DATABASE {self.new_database}")
-
-        cur.close()
-        conn.close()
+            cur.close()
+            conn.close()
+        except psycopg2.OperationalError:
+            raise ConnectError()
 
     def create_tables(self) -> None:
         """
