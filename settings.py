@@ -12,5 +12,6 @@ company_ids = [
     "12849",  # Филип Моррис Интернэшнл
 ]
 
+# url сайтов
 HH_URL_EMPLOYERS = "https://api.hh.ru/employers/"
 HH_URL_VACANCIES = "https://api.hh.ru/vacancies?employer_id="
