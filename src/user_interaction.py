@@ -83,3 +83,4 @@ def user_interaction():
 
         else:
             print("Ошибка ввода команды. Повторите ввод")
+            time.sleep(1)

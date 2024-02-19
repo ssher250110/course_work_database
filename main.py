@@ -3,6 +3,10 @@ from src.utils import load_data_database
 
 
 def main():
+    """
+    Основная функция по работе с программой.
+    """
+    print("Возможно придется подождать, так как вакансий не мало.")
     load_data_database()
     user_interaction()
 
