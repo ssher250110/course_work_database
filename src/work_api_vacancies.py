@@ -5,6 +5,7 @@ from typing import Any
 import requests
 
 from settings import HH_URL_VACANCIES
+from user_exceptions import ApiError
 
 
 class ApiVacancies(ABC):
@@ -34,18 +35,27 @@ class HHApiVacancies(ApiVacancies):
         """
         data = []
         data_vacancies = []
-        for company_id in company_ids:
-            page = 0
-            count_pages = requests.get(url=f"{HH_URL_VACANCIES}{company_id}", params={"per_page": 100}).json()["pages"]
-            time.sleep(1)
-            while page < count_pages:
-                response = requests.get(url=f"{HH_URL_VACANCIES}{company_id}", params={"per_page": 100}).json()["items"]
-                data_vacancies.extend(response)
-                page += 1
-            data.extend(data_vacancies)
-        return [{"employer_id": int(data_vacancy["employer"]["id"]),
-                 "vacancy_name": data_vacancy["name"].lower(),
-                 "salary_from": [data_vacancy["salary"]["from"] if data_vacancy.get("salary") else None][0],
-                 "salary_to": [data_vacancy["salary"]["to"] if data_vacancy.get("salary") else None][0],
-                 "currency": [data_vacancy["salary"]["currency"] if data_vacancy.get("salary") else None][0],
-                 "url_address": data_vacancy["alternate_url"]} for data_vacancy in data]
+        try:
+            for company_id in company_ids:
+                page = 0
+                count_pages = requests.get(url=f"{HH_URL_VACANCIES}{company_id}", params={"per_page": 100}).json()[
+                    "pages"]
+                time.sleep(1)
+                while page < count_pages:
+                    response = requests.get(url=f"{HH_URL_VACANCIES}{company_id}", params={"per_page": 100}).json()[
+                        "items"]
+                    data_vacancies.extend(response)
+                    page += 1
+                data.extend(data_vacancies)
+            data_vacancies = [{"employer_id": int(data_vacancy["employer"]["id"]),
+                               "vacancy_name": data_vacancy["name"].lower(),
+                               "salary_from": [data_vacancy["salary"]["from"] if data_vacancy.get("salary") else None][
+                                   0],
+                               "salary_to": [data_vacancy["salary"]["to"] if data_vacancy.get("salary") else None][0],
+                               "currency": [data_vacancy["salary"]["currency"] if data_vacancy.get("salary") else None][
+                                   0],
+                               "url_address": data_vacancy["alternate_url"]} for data_vacancy in data]
+        except KeyError:
+            raise ApiError()
+        else:
+            return data_vacancies
