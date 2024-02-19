@@ -1,5 +1,11 @@
+from src.user_interaction import user_interaction
+from src.utils import load_data_database
+
+
 def main():
-    pass
+    load_data_database()
+    user_interaction()
+
 
 if __name__ == "__main__":
     main()
