@@ -85,7 +85,7 @@ class DBManager:
         conn.commit()
         conn.close()
 
-    def get_companies_and_vacancies_count(self):
+    def get_companies_and_vacancies_count(self) -> list[tuple]:
         """
         Метод получения списка всех компаний и количества вакансий у каждой компании.
         :return:
@@ -98,7 +98,7 @@ class DBManager:
             response = cur.fetchall()
         return response
 
-    def get_all_vacancies(self):
+    def get_all_vacancies(self) -> list[tuple]:
         """
         Метод получения списка всех вакансий с указанием названия компании, названия вакансии и зарплаты и ссылки
         на вакансию.
@@ -115,7 +115,7 @@ class DBManager:
             response = cur.fetchall()
         return response
 
-    def get_avg_salary(self):
+    def get_avg_salary(self) -> list[tuple]:
         """
         Метод получения средней зарплаты по вакансиям.
         :return:
@@ -128,7 +128,7 @@ class DBManager:
             response = cur.fetchall()
         return response
 
-    def get_vacancies_with_higher_salary(self):
+    def get_vacancies_with_higher_salary(self) -> list[tuple]:
         """
         Метод получения списка всех вакансий, у которых зарплата выше средней по всем вакансиям.
         :return:
@@ -145,7 +145,7 @@ class DBManager:
             response = cur.fetchall()
         return response
 
-    def get_vacancies_with_keyword(self, user_word: str):
+    def get_vacancies_with_keyword(self, user_word: str) -> list[tuple]:
         """
         Метод получения списка всех вакансий, в названии которых содержатся переданные в метод слова, например python.
         :return:
