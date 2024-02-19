@@ -6,7 +6,7 @@ class DBManager:
     Класс для работы с базой данных.
     """
 
-    def __init__(self, new_database, exists_database, params):
+    def __init__(self, new_database: str, exists_database: str, params: dict):
         """
         Инициализация необходимых параметров.
         :param new_database: Новая база данных.
